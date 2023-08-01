@@ -1,11 +1,7 @@
-import "./App.css";
+import LightGrid from "./LightGrid";
 
 function App() {
-  return (
-    <>
-      <p>Hello World</p>
-    </>
-  );
+  return <LightGrid />;
 }
 
 export default App;

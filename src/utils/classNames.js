@@ -20,7 +20,7 @@ function classNames(...args) {
   return classes.join(" ");
 }
 
-// Test examples
+// Test classNames
 console.log(classNames("foo", "bar"));
 console.log(classNames("foo", { bar: true }));
 console.log(classNames({ "foo-bar": true }));
