@@ -31,7 +31,6 @@ npm run dev
 ```
 
 This will run the app in development mode. Open http://localhost:5173 in your browser to view the application.
-Implementing classnames function
 
 # classNames
 

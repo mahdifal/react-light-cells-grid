@@ -5,7 +5,7 @@ import LightCell from "./LightCell";
 const LightGrid = () => {
   const [activatedCells, setActivatedCells] = useState([]);
   const [startDeactivate, setStartDeactivate] = useState(false);
-  const isMountedRef = useRef(true); // Ref to track component mount status
+  const isMountedRef = useRef(true);
 
   const handleCellClick = (cellIndex) => {
     if (!activatedCells.includes(cellIndex)) {
@@ -35,7 +35,6 @@ const LightGrid = () => {
         });
       }, 300);
 
-      // Cleanup function to clear interval and update component mount status
       return () => {
         clearInterval(timer);
         isMountedRef.current = false;
@@ -44,7 +43,6 @@ const LightGrid = () => {
   }, [startDeactivate]);
 
   useEffect(() => {
-    // Reset the component mount status when the component is unmounted
     return () => {
       isMountedRef.current = false;
     };
