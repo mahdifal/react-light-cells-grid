@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./LightGrid.css";
 import LightCell from "./LightCell";
 
 const LightGrid = () => {
   const [activatedCells, setActivatedCells] = useState([]);
   const [startDeactivate, setStartDeactivate] = useState(false);
+  const isMountedRef = useRef(true); // Ref to track component mount status
 
   const handleCellClick = (cellIndex) => {
     if (!activatedCells.includes(cellIndex)) {
@@ -19,21 +20,35 @@ const LightGrid = () => {
   }, [activatedCells.length]);
 
   useEffect(() => {
-    let timer;
-    const deactivateCells = () => {
-      if (activatedCells.length === 0) return;
+    if (startDeactivate) {
+      const timer = setInterval(() => {
+        setActivatedCells((prevActivatedCells) => {
+          if (prevActivatedCells.length === 0) {
+            clearInterval(timer);
+            setStartDeactivate(false);
+            return prevActivatedCells;
+          }
 
-      setActivatedCells((prevActivatedCells) => {
-        const updatedCells = [...prevActivatedCells];
-        updatedCells.pop();
-        return updatedCells;
-      });
-    };
+          const updatedCells = [...prevActivatedCells];
+          updatedCells.pop();
+          return updatedCells;
+        });
+      }, 300);
 
-    timer = setInterval(deactivateCells, 300);
-
-    return () => clearInterval(timer);
+      // Cleanup function to clear interval and update component mount status
+      return () => {
+        clearInterval(timer);
+        isMountedRef.current = false;
+      };
+    }
   }, [startDeactivate]);
+
+  useEffect(() => {
+    // Reset the component mount status when the component is unmounted
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   return (
     <div className="light-grid">
